@@ -22,7 +22,6 @@ from rest_framework import permissions
 from drf_spectacular.views import SpectacularJSONAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-    
     path("accounts/", include("allauth.urls")),
     path("modules/", include("modules.urls")),
     path("api/v1/", include("home.api.v1.urls")),
@@ -32,6 +31,10 @@ urlpatterns = [
     # Override email confirm to use allauth's HTML view instead of rest_auth's API view
     path("rest-auth/registration/account-confirm-email/<str:key>/", confirm_email),
     path("rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/v1/", include("analytics.api.v1.urls")),
+    path("api/v1/", include("meditation.api.v1.urls")),
+    path("api/v1/", include("sleep.api.v1.urls")),
+    path("api/v1/", include("tracking.api.v1.urls")),
 ]
 
 admin.site.site_header = "Meditation App Zen"
@@ -41,8 +44,10 @@ admin.site.index_title = "Meditation App Zen Admin"
 # swagger
 urlpatterns += [
     path("api-docs/schema/", SpectacularJSONAPIView.as_view(), name="schema"),
-    path("api-docs/", SpectacularSwaggerView.as_view(url_name='schema'), name="api_docs")
+    path(
+        "api-docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="api_docs"
+    ),
 ]
 
 
-urlpatterns += [re_path(r".*",TemplateView.as_view(template_name='index.html'))]
+urlpatterns += [re_path(r".*", TemplateView.as_view(template_name="index.html"))]
